@@ -1,17 +1,16 @@
 package ovh.mythmc.social.addons.chatheadfont.placeholders;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.minso.chathead.API.ChatHeadAPI;
-import ovh.mythmc.social.api.players.SocialPlayer;
-import ovh.mythmc.social.api.text.parsers.SocialPlaceholder;
+import ovh.mythmc.social.api.context.SocialParserContext;
+import ovh.mythmc.social.api.text.parsers.SocialContextualPlaceholder;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public final class ChatHeadFontPlaceholder extends SocialPlaceholder {
+public final class ChatHeadFontPlaceholder extends SocialContextualPlaceholder {
 
     private final ChatHeadAPI chatHeadAPI;
 
@@ -19,7 +18,7 @@ public final class ChatHeadFontPlaceholder extends SocialPlaceholder {
         chatHeadAPI = ChatHeadAPI.getInstance();
     }
 
-    private final Map<UUID, String> cachedHeads = new HashMap<>();
+    private final Map<UUID, Component> cachedHeads = new HashMap<>();
 
     @Override
     public String identifier() {
@@ -27,19 +26,18 @@ public final class ChatHeadFontPlaceholder extends SocialPlaceholder {
     }
 
     @Override
-    public String process(SocialPlayer player) {
-        if (cachedHeads.containsKey(player.getUuid()))
-            return cachedHeads.get(player.getUuid());
+    public Component get(SocialParserContext context) {
+        if (cachedHeads.containsKey(context.socialPlayer().getUuid()))
+            return cachedHeads.get(context.socialPlayer().getUuid());
 
-        if (player.getPlayer() == null)
-            return "";
+        if (context.socialPlayer().getPlayer() == null)
+            return Component.empty();
 
-        String head = chatHeadAPI.getHeadAsString(player.getPlayer());
-        Component deserializedHead = LegacyComponentSerializer.legacySection().deserialize(head);
-        String serializedHead = MiniMessage.miniMessage().serialize(deserializedHead);
+        String headAsString = chatHeadAPI.getHeadAsString(context.socialPlayer().getPlayer());
+        Component head = LegacyComponentSerializer.legacySection().deserialize(headAsString);
 
-        cachedHeads.put(player.getUuid(), serializedHead);
-        return MiniMessage.miniMessage().serialize(deserializedHead);
+        cachedHeads.put(context.socialPlayer().getUuid(), head);
+        return head;
     }
 
 }

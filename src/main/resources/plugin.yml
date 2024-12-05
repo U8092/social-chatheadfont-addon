@@ -1,7 +1,14 @@
 name: social-chatheadfont-addon
 authors: [myth-MC, U8092]
-version: 0.1.1
+version: ${project.version}
 api-version: 1.16
 
 main: ovh.mythmc.social.addons.chatheadfont.SocialChatHeadFont
 depend: [ social, ChatHeadFont ]
+softdepend: [ gestalt ]
+
+libraries:
+  - net.kyori:adventure-api:4.17.0
+  - net.kyori:adventure-platform-bukkit:4.3.4
+  - net.kyori:adventure-text-minimessage:4.17.0
+  - net.kyori:adventure-text-serializer-legacy:4.17.0

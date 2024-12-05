@@ -6,7 +6,7 @@
 
     <groupId>ovh.mythmc</groupId>
     <artifactId>social-chatheadfont-addon</artifactId>
-    <version>0.1.1</version>
+    <version>0.2.0</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -27,15 +27,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.5.2</version>
-
-                <configuration>
-                    <relocations>
-                        <relocation>
-                            <pattern>net.kyori</pattern>
-                            <shadedPattern>ovh.mythmc.social.addons.chatheadfont.net.kyori</shadedPattern>
-                        </relocation>
-                    </relocations>
-                </configuration>
 
                 <executions>
                     <execution>
@@ -77,28 +68,45 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.myth-MC.social</groupId>
+            <groupId>ovh.mythmc</groupId>
             <artifactId>social-api</artifactId>
-            <version>dev~0.1.1-46aafb94e7-1</version>
+            <version>v0.3.0b</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ovh.mythmc</groupId>
+            <artifactId>gestalt-api</artifactId>
+            <version>0.1.8</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ovh.mythmc</groupId>
+            <artifactId>gestalt-loader</artifactId>
+            <version>0.1.8</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-api</artifactId>
             <version>4.17.0</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-serializer-legacy</artifactId>
             <version>4.17.0</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-minimessage</artifactId>
             <version>4.17.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

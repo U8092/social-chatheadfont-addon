@@ -2,30 +2,34 @@ package ovh.mythmc.social.addons.chatheadfont;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import ovh.mythmc.social.addons.chatheadfont.features.ChatHeadFontFeature;
-import ovh.mythmc.social.api.features.SocialGestalt;
+
+import ovh.mythmc.gestalt.Gestalt;
+import ovh.mythmc.gestalt.loader.BukkitGestaltLoader;
+import ovh.mythmc.social.addons.chatheadfont.listeners.GestaltSocialListener;
 
 public final class SocialChatHeadFont extends JavaPlugin {
 
-    private ChatHeadFontFeature chatHeadFontFeature;
+    private BukkitGestaltLoader gestalt;
 
     @Override
     public void onEnable() {
         if (!Bukkit.getServer().getOnlineMode()) {
-            getLogger().warning("Plugin cannot run if online-mode is set to false!");
+            getLogger().severe("Plugin cannot run if online-mode is set to false!");
             return;
         }
 
-        chatHeadFontFeature = new ChatHeadFontFeature();
+        gestalt = BukkitGestaltLoader.builder()
+            .initializer(this)
+            .build();
 
-        SocialGestalt.get().registerFeature(chatHeadFontFeature);
-        SocialGestalt.get().enableFeature(chatHeadFontFeature);
+        gestalt.initialize();
+
+        Gestalt.get().getListenerRegistry().register(new GestaltSocialListener(), true);
     }
 
     @Override
     public void onDisable() {
-        // Todo: disable
-        SocialGestalt.get().unregisterFeature(chatHeadFontFeature);
+        gestalt.terminate();
     }
 
 }
